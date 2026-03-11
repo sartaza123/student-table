@@ -9,12 +9,20 @@ export const StudentsProvider = ({ children }) => {
     setStudents((prev) => [...prev, student]);
   };
 
-  const deleteStudent = (index) => {
-    setStudents((prev) => prev.filter((_, i) => i !== index));
+  const deleteStudent = (id) => {
+    setStudents((prev) => prev.filter((student) => student.id !== id));
+  };
+
+  const updateStudent = (updatedStudent) => {
+    setStudents((prev) =>
+      prev.map((s) => (s.id === updatedStudent.id ? updatedStudent : s)),
+    );
   };
 
   return (
-    <StudentsContext.Provider value={{ students, addStudent, deleteStudent }}>
+    <StudentsContext.Provider
+      value={{ students, addStudent, deleteStudent, updateStudent }}
+    >
       {children}
     </StudentsContext.Provider>
   );

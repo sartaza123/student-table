@@ -54,35 +54,43 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
                 </td>
 
                 {/* Name */}
-                <td className="p-3">{student.name}</td>
+                <td className="px-3 py-2">{student.name}</td>
 
                 {/* Email */}
-                <td className="p-3">{student.email}</td>
+                <td className="px-3 py-2">{student.email}</td>
 
                 {/* Phone */}
-                <td className="p-3">{student.phone}</td>
+                <td className="px-3 py-2">{student.phone}</td>
 
                 {/* Age */}
-                <td className="p-3">{student.age}</td>
+                <td className="px-3 py-2">{student.age}</td>
 
                 {/* Gender */}
-                <td className="p-3">{student.gender}</td>
+                <td className="px-3 py-2">{student.gender}</td>
 
                 {/* Course */}
-                <td className="p-3">{student.course}</td>
+                <td className="px-3 py-2">{student.course}</td>
 
                 {/* Actions */}
-                <td className="p-3 flex gap-3">
+                <td className="px-3 py-2 flex gap-3">
                   <button
-                    onClick={() => handleEdit(index)}
-                    className="text-blue-600 hover:text-blue-800"
+                    onClick={() => handleEdit(student)}
+                    className="py-4 text-[#1B0C1A] hover:text-green-800"
                   >
                     <FaEdit />
                   </button>
 
                   <button
-                    onClick={() => handleDelete(index)}
-                    className="text-red-600 hover:text-red-800"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this student?",
+                        )
+                      ) {
+                        handleDelete(student.id);
+                      }
+                    }}
+                    className="text-[#1B0C1A] hover:text-red-800"
                   >
                     <FaTrash />
                   </button>

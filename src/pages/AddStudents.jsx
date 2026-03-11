@@ -1,22 +1,28 @@
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { StudentsContext } from "../context/StudentsContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AddStudent = () => {
-  const [student, setStudent] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    age: "",
-    gender: "",
-    course: "",
-    address: "",
-    photo: null,
-  });
+  const location = useLocation();
+  const editStudent = location.state;
+
+  const [student, setStudent] = useState(
+    editStudent || {
+      name: "",
+      email: "",
+      phone: "",
+      age: "",
+      gender: "",
+      course: "",
+      address: "",
+      photo: null,
+    },
+  );
 
   const [error, setError] = useState("");
-  const { addStudent } = useContext(StudentsContext);
+
+  const { addStudent, updateStudent } = useContext(StudentsContext);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -58,7 +64,17 @@ const AddStudent = () => {
 
     setError("");
 
-    alert("Student Added Successfully");
+    let finalStudent;
+
+    if (editStudent) {
+      finalStudent = student;
+      updateStudent(finalStudent);
+      alert("Student Updated Successfully");
+    } else {
+      finalStudent = { ...student, id: Date.now() };
+      addStudent(finalStudent);
+      alert("Student Added Successfully");
+    }
 
     setStudent({
       name: "",
@@ -71,8 +87,8 @@ const AddStudent = () => {
       photo: null,
     });
 
-    console.log(student);
-    addStudent(student);
+    console.log(finalStudent);
+
     navigate("/");
   };
 
@@ -80,7 +96,7 @@ const AddStudent = () => {
     <div className="min-h-screen bg-[#2D222F] flex items-center justify-center p-6">
       <div className="bg-[#FADCD5] w-full max-w-4xl p-10 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-[#1B0C1A] mb-6 text-center">
-          Add Student
+          {editStudent ? "Edit Student" : "Add Student"}
         </h2>
 
         <form
@@ -203,20 +219,18 @@ const AddStudent = () => {
             ></textarea>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="text-red-500 text-sm md:col-span-2 text-center">
               {error}
             </div>
           )}
 
-          {/* Buttons */}
           <div className="md:col-span-2 flex justify-center gap-4 mt-4">
             <button
               type="submit"
               className="bg-[#4B2138] text-white px-6 py-2 rounded hover:bg-[#6D3C52] transition"
             >
-              Add Student
+              {editStudent ? "Update Student" : "Add Student"}
             </button>
 
             <button
