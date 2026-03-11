@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useContext } from "react";
+import { StudentsContext } from "../context/StudentsContext";
+import { useNavigate } from "react-router-dom";
 
 const AddStudent = () => {
   const [student, setStudent] = useState({
@@ -13,6 +16,8 @@ const AddStudent = () => {
   });
 
   const [error, setError] = useState("");
+  const { addStudent } = useContext(StudentsContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -53,8 +58,6 @@ const AddStudent = () => {
 
     setError("");
 
-    console.log(student);
-
     alert("Student Added Successfully");
 
     setStudent({
@@ -67,6 +70,10 @@ const AddStudent = () => {
       address: "",
       photo: null,
     });
+
+    console.log(student);
+    addStudent(student);
+    navigate("/");
   };
 
   return (

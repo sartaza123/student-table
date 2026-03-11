@@ -1,9 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
-
+import { StudentsProvider } from "./context/StudentsContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import "./index.css";
+
+import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import AddStudent from "./pages/AddStudents.jsx";
 
@@ -26,6 +28,8 @@ const appRouter = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={appRouter} />
+    <StudentsProvider>
+      <RouterProvider router={appRouter} />
+    </StudentsProvider>
   </StrictMode>,
 );
