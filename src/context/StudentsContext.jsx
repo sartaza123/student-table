@@ -4,13 +4,22 @@ export const StudentsContext = createContext();
 
 export const StudentsProvider = ({ children }) => {
   const [students, setStudents] = useState(() => {
-    const storedStudents = localStorage.getItem("students");
-    return storedStudents ? JSON.parse(storedStudents) : [];
+    try {
+      const storedStudents = localStorage.getItem("students");
+      return storedStudents ? JSON.parse(storedStudents) : [];
+    } catch (error) {
+      console.error("Error reading localStorage:", error);
+      return [];
+    }
   });
 
-  // Save to localStorage whenever students change
+  // Sync students with localStorage
   useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
+    try {
+      localStorage.setItem("students", JSON.stringify(students));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
   }, [students]);
 
   const addStudent = (student) => {
@@ -29,7 +38,12 @@ export const StudentsProvider = ({ children }) => {
 
   return (
     <StudentsContext.Provider
-      value={{ students, addStudent, deleteStudent, updateStudent }}
+      value={{
+        students,
+        addStudent,
+        deleteStudent,
+        updateStudent,
+      }}
     >
       {children}
     </StudentsContext.Provider>
