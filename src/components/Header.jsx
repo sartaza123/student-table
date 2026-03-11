@@ -2,7 +2,7 @@ import { FaUserGraduate, FaSearch } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="bg-[#1B0C1A] text-[#FADCD5] flex items-center justify-between px-8 py-4 shadow-lg">
+    <header className="fixed w-full bg-[#1B0C1A] text-[#FADCD5] flex items-center justify-between px-8 py-4 shadow-lg h-20">
       {/* Logo + Title */}
       <div className="flex items-center gap-3">
         <FaUserGraduate size={26} />

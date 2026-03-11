@@ -1,7 +1,12 @@
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import ConfirmDialog from "./ConfirmDialogBox";
 
 const StudentTable = ({ students, handleDelete, handleEdit }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   return (
     <div className="bg-[#FADCD5] p-6 rounded-lg shadow-lg overflow-x-auto">
       <div className="flex  justify-between">
@@ -82,13 +87,8 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
 
                   <button
                     onClick={() => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this student?",
-                        )
-                      ) {
-                        handleDelete(student.id);
-                      }
+                      setSelectedId(student.id);
+                      setOpenDialog(true);
                     }}
                     className="text-[#1B0C1A] hover:text-red-800"
                   >
@@ -100,6 +100,14 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
           </tbody>
         </table>
       )}
+      <ConfirmDialog
+        isOpen={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onConfirm={() => {
+          handleDelete(selectedId);
+          setOpenDialog(false);
+        }}
+      />
     </div>
   );
 };

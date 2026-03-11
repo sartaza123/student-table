@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-[#2D222F] p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mt-20 mx-auto">
         <StudentTable
           students={students}
           handleDelete={deleteStudent}

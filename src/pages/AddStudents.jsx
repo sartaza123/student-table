@@ -93,8 +93,8 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#2D222F] flex items-center justify-center p-6">
-      <div className="bg-[#FADCD5] w-full max-w-4xl p-10 rounded-lg shadow-lg">
+    <div className="min-h-screen  bg-[#2D222F] flex items-center justify-center p-6">
+      <div className="bg-[#FADCD5] w-full mt-20 max-w-4xl p-10 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-[#1B0C1A] mb-6 text-center">
           {editStudent ? "Edit Student" : "Add Student"}
         </h2>
