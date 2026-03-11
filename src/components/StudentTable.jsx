@@ -2,24 +2,42 @@ import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialogBox";
+import * as XLSX from "xlsx";
 
 const StudentTable = ({ students, handleDelete, handleEdit }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
+  const downloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(students);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
+
+    XLSX.writeFile(workbook, "students.xlsx");
+  };
+
   return (
-    <div className="bg-[#FADCD5] p-6 rounded-lg shadow-lg overflow-x-auto">
-      <div className="flex  justify-between">
+    <div className="bg-[#FADCD5] p-6 rounded-lg shadow-lg overflow-x-hidden">
+      <div className="flex justify-between">
         <h2 className="text-xl font-semibold text-[#1B0C1A] mb-4">
           Students List
         </h2>
-        <Link to="/add-student">
-          <button className="text-xs flex gap-2 h-8 px-4 py-2 bg-[#2D222F] text-[#FADCD5] rounded-2xl cursor-pointer">
-            {" "}
-            <FaPlus className="" />
-            <h3 className="font-bold">Add Student</h3>
+        <div className="flex gap-3">
+          <Link to="/add-student">
+            <button className="text-xs flex gap-2 h-8 px-4 py-2 bg-[#4B2138] text-[#FADCD5] rounded-2xl cursor-pointer">
+              {" "}
+              <FaPlus className="" />
+              <h3 className="font-bold">Add Student</h3>
+            </button>
+          </Link>
+          <button
+            onClick={downloadExcel}
+            className="text-xs flex gap-2 h-8 px-4 py-2 bg-[#4B2138] text-[#FADCD5] rounded-2xl cursor-pointer font-bold"
+          >
+            Download Excel
           </button>
-        </Link>
+        </div>
       </div>
 
       {students.length === 0 ? (
@@ -47,7 +65,7 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
               >
                 {/* Photo */}
                 <td className="p-3">
-                  {student.photo ? (
+                  {student.photo && student.photo instanceof File ? (
                     <img
                       src={URL.createObjectURL(student.photo)}
                       alt="profile"

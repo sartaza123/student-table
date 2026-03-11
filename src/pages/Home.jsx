@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StudentsContext } from "../context/StudentsContext";
-import StudentTable from "../components/StudentTable";
 import { useNavigate } from "react-router-dom";
+import StudentTable from "../components/StudentTable";
 
 const Home = () => {
   const { students, deleteStudent } = useContext(StudentsContext);
