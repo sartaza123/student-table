@@ -1,38 +1,41 @@
 import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const StudentsContext = createContext();
 
+const API = "http://localhost:5000/api/students";
+
 export const StudentsProvider = ({ children }) => {
-  const [students, setStudents] = useState(() => {
-    try {
-      const storedStudents = localStorage.getItem("students");
-      return storedStudents ? JSON.parse(storedStudents) : [];
-    } catch (error) {
-      console.error("Error reading localStorage:", error);
-      return [];
-    }
-  });
+  const [students, setStudents] = useState([]);
 
-  // Sync students with localStorage
+  // GET students
+  const fetchStudents = async () => {
+    const res = await axios.get(API);
+    setStudents(res.data);
+  };
+
   useEffect(() => {
-    try {
-      localStorage.setItem("students", JSON.stringify(students));
-    } catch (error) {
-      console.error("Error saving to localStorage:", error);
-    }
-  }, [students]);
+    fetchStudents();
+  }, []);
 
-  const addStudent = (student) => {
-    setStudents((prev) => [...prev, student]);
+  // ADD student
+  const addStudent = async (student) => {
+    const res = await axios.post(API, student);
+    setStudents((prev) => [...prev, res.data]);
   };
 
-  const deleteStudent = (id) => {
-    setStudents((prev) => prev.filter((s) => s.id !== id));
+  // DELETE student
+  const deleteStudent = async (id) => {
+    await axios.delete(`${API}/${id}`);
+    setStudents((prev) => prev.filter((s) => s._id !== id));
   };
 
-  const updateStudent = (updatedStudent) => {
+  // UPDATE student
+  const updateStudent = async (student) => {
+    const res = await axios.put(`${API}/${student._id}`, student);
+
     setStudents((prev) =>
-      prev.map((s) => (s.id === updatedStudent.id ? updatedStudent : s)),
+      prev.map((s) => (s._id === student._id ? res.data : s)),
     );
   };
 

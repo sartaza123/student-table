@@ -73,7 +73,7 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
           <tbody>
             {students.map((student) => (
               <tr
-                key={student.id}
+                key={student._id}
                 className="border-b border-[#765D67] hover:bg-[#f3cfc7]"
               >
                 <td className="p-3">
@@ -95,7 +95,7 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
                 <td className="px-3 py-2">{student.gender}</td>
                 <td className="px-3 py-2">{student.course}</td>
 
-                <td className="px-3 py-2 flex gap-3">
+                <td className="px-3 py-2 mt-4 flex gap-3">
                   <button
                     onClick={() => handleEdit(student)}
                     className="text-[#1B0C1A] hover:text-green-700"
@@ -105,7 +105,7 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
 
                   <button
                     onClick={() => {
-                      setSelectedId(student.id);
+                      setSelectedId(student._id);
                       setOpenDialog(true);
                     }}
                     className="text-[#1B0C1A] hover:text-red-700"
@@ -122,7 +122,7 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
       {/* Mobile Card Layout */}
       <div className="md:hidden flex flex-col gap-4">
         {students.map((student) => (
-          <div key={student.id} className="bg-white p-4 rounded-lg shadow">
+          <div key={student._id} className="bg-white p-4 rounded-lg shadow">
             <div className="flex items-center gap-3 mb-3">
               {student.photo ? (
                 <img
@@ -158,17 +158,17 @@ const StudentTable = ({ students, handleDelete, handleEdit }) => {
             <div className="flex gap-4 mt-3">
               <button
                 onClick={() => handleEdit(student)}
-                className="text-green-700"
+                className="text-[#1B0C1A] hover:text-green-700"
               >
                 <FaEdit />
               </button>
 
               <button
                 onClick={() => {
-                  setSelectedId(student.id);
+                  setSelectedId(student._id);
                   setOpenDialog(true);
                 }}
-                className="text-red-700"
+                className="text-[#1B0C1A] hover:text-red-700"
               >
                 <FaTrash />
               </button>

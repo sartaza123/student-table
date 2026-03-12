@@ -83,7 +83,7 @@ const AddStudent = () => {
       updateStudent(finalStudent);
       alert("Student Updated Successfully");
     } else {
-      finalStudent = { ...student, id: Date.now() };
+      finalStudent = student;
       addStudent(finalStudent);
       alert("Student Added Successfully");
     }
